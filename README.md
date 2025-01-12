@@ -1,0 +1,1 @@
+# qnamit-devops-community
