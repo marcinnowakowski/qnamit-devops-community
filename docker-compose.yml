@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  django:
+    build:
+      context: ../qnamit-community  # Path to the build context
+    container_name: django
+    volumes:
+      - ./django/sqlite3:/app/sqlite3  # Bind the database file to the host
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=your_django_secret_key
