@@ -7,8 +7,6 @@ services:
     container_name: django
     volumes:
       - ./django/sqlite3:/app/sqlite3  # Bind the database file to the host
-    ports:
-      - "8000:8000"
     environment:
       - DEBUG=1
       - SECRET_KEY=your_django_secret_key
@@ -17,7 +15,16 @@ services:
     build:
       context: ../qnamit-react-community
     container_name: react
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8080/backend/qna-rest/v1/api
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
     ports:
-      - "5173:80"
+      - "8080:80"
     volumes:
-      - ./frontend:/app
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro  # Mount the nginx configuration file
+    depends_on:
+      - django
+      - react
